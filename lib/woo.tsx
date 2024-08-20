@@ -3,7 +3,6 @@
 import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
 
 function woo() {
-    console.log(process.env.BASE_URL, process.env.C_KEY, process.env.C_SECRET);
     return new WooCommerceRestApi({
         url: process.env.BASE_URL,
         consumerKey: process.env.C_KEY,
@@ -19,6 +18,6 @@ export async function GetAllProducts() {
             return response.data;
         })
         .catch((error: any) => {
-            console.log(error.response.data);
+            return error.response.data
         });
 }

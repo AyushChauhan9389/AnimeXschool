@@ -17,7 +17,7 @@ export function MainCarousel() {
             align: "start",
             loop: true,
         }} className="w-full">
-            <CarouselContent>
+            <CarouselContent >
                 <CarouselItem>
                     <Image src="/1.webp" alt="Logo" height={1920} width={1080} className="w-full h-full object-cover rounded-2xl bg-background" />
                 </CarouselItem>
