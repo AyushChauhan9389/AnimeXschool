@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { NavigationMenuDemo } from "../client/navigation";
+import {Instagram} from "lucide-react";
 
 export default function Header() {
   return (
@@ -11,6 +12,7 @@ export default function Header() {
       <div className="py-2 flex justify-center mt-4">
       <NavigationMenuDemo />
       </div>
+
     </header>
   );
 }
