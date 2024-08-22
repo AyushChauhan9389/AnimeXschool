@@ -61,7 +61,7 @@ export function MainCarousel() {
         </Carousel>
     )
 }
-export function HorizontalCarousel() {
+export function HorizontalCarousel({data} : {data: CategoryData[]}) {
     return (
         <Carousel opts={{
             align: "start",
@@ -69,8 +69,8 @@ export function HorizontalCarousel() {
         }}
             className="my-4 w-[1200px] relative">
             <CarouselContent className="-ml-1">
-                {['Regular Fit Hoodies', 'Regular Fit T-Shirts', 'Jackets', 'Bots'].map((item, index) => (
-                    <CarouselClient key={index} item={item} />
+                {data.map((item, index) => (
+                    <CarouselClient key={index} data={item} />
                 ))}
             </CarouselContent>
             <div className="flex justify-center mt-4 space-x-4">

@@ -5,12 +5,11 @@ import { Card, CardContent } from '../ui/card';
 import Image from 'next/image';
 import { useState } from 'react';
 import { Button } from '../ui/button';
+import Link from "next/link";
 
-type Items = {
-    item: string;
-}
 
-export function CarouselClient({ item }: Items) {
+
+export function CarouselClient({ data }: {data: CategoryData}) {
     const [isHovered, setIsHovered] = useState(false);
 
     return (
@@ -24,7 +23,7 @@ export function CarouselClient({ item }: Items) {
                     <CardContent className="h-full relative p-0 rounded-none">
                         <Image
                             src="/placeholder.svg"
-                            alt={item}
+                            alt={data.name}
                             layout="fill"
                             objectFit="cover"
                         />
@@ -37,7 +36,7 @@ export function CarouselClient({ item }: Items) {
                                 transition={{ duration: 0.3, ease: "easeInOut" }}
                             >
                                 <motion.h1 className="text-2xl text-white">
-                                    {item}
+                                    {data.name}
                                 </motion.h1>
                                 <AnimatePresence>
                                     {isHovered && (
@@ -48,7 +47,9 @@ export function CarouselClient({ item }: Items) {
                                             exit={{ opacity: 0, height: 0 }}
                                             transition={{ duration: 0.5, ease: "easeInOut" }}
                                         >
-                                            <Button variant="link" className="text-white underline" >Explore More</Button>
+                                            <Link href={`/category/${data.slug}`}>
+                                                <Button variant="link" className="text-white underline" >Explore More</Button>
+                                            </Link>
                                         </motion.p>
                                     )}
                                 </AnimatePresence>

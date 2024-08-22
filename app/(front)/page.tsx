@@ -1,10 +1,12 @@
 import { HorizontalCarousel, MainCarousel, ProductCarousel } from "@/components/components/carousel";
-import { GetAllProducts } from "@/lib/woo";
+import {GetAllCategories, GetAllProducts} from "@/lib/woo";
 import Image from "next/image";
 import Footer from "@/components/components/footer";
 import {Button} from "@/components/ui/button";
 
 export default async function Home() {
+    const categories = await GetAllCategories();
+
   return (
       <div className="flex flex-col">
           <MainCarousel/>
@@ -12,13 +14,13 @@ export default async function Home() {
               Shop By Category
           </div>
           <div className="flex justify-center">
-              <HorizontalCarousel/>
+              <HorizontalCarousel data={categories} />
           </div>
           <div className="w-full flex justify-center text-4xl font-bold font-sans mt-4">
               Shop By Theme
           </div>
           <div className="flex justify-center">
-              <HorizontalCarousel/>
+              <HorizontalCarousel data={categories}/>
           </div>
           <div className="w-full flex justify-center text-4xl font-bold font-sans mt-4">
               NEW ARRIVALS
