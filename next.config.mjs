@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['test.techgeekzservices.com'],
+        domains: ['logo.tg-api.me'],
     },
+
 };
 
 export default nextConfig;

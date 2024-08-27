@@ -55,7 +55,7 @@ export async function GetAllProducts(): Promise<Product[]> {
 
     return finalData;
 }
-export async function GetAllCategories() {
+export async function GetAllCategories(): Promise<CategoryData[]> {
     const response = await woo('/wp-json/wc/v3/products/categories', '?per_page=5');
     const data = await response.json();
     return data.map((category: CategoryData) => ({

@@ -24,8 +24,8 @@ export function CarouselClient({ data }: {data: CategoryData}) {
                         <Image
                             src="/placeholder.svg"
                             alt={data.name}
-                            layout="fill"
-                            objectFit="cover"
+                            fill
+                            style={{ objectFit: 'cover' }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.5)] to-[rgba(0,0,0,0)] rounded-none"></div>
                         <div className="absolute inset-0 bottom-10 flex flex-col items-center justify-end px-4 text-center">
@@ -81,8 +81,8 @@ export function ProductCarouselClient({ item, indexdata }: { item: data, indexda
                     <Image
                         src="/placeholder.svg"
                         alt={item.title}
-                        layout="fill"
-                        objectFit="cover"
+                        fill
+                        style={{ objectFit: 'cover' }}
                     />
                     <div
                         className="absolute inset-0 bottom-10 flex flex-col items-center justify-end px-4 text-center">

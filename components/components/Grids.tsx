@@ -34,10 +34,12 @@ export default function ProductGrid({ product }: { product: Product }) {
                         <Image
                             src={product.images[0].src}
                             alt={product.name}
-                            layout="fill"
-                            objectFit="cover"
+                            fill
+                            style={{ objectFit: 'cover' }}
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             onLoad={handleImageLoad}
                         />
+
                         <div
                             className="absolute inset-0 bottom-10 flex flex-col items-center justify-end px-4 text-center">
                             <AnimatePresence>
