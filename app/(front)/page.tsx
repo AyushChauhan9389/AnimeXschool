@@ -59,9 +59,7 @@ export default async function Home() {
         );
 
     }else {
-        return (
-            <div>SOME ERROR OCCURRED</div>
-        )
+        throw new Error('No data found');
     }
 
 }
