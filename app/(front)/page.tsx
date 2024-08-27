@@ -4,8 +4,9 @@ import {Button} from "@/components/ui/button";
 import {GetAllCategories} from "@/lib/woo";
 
 export default async function Home() {
-    const categories = await GetAllCategories();
-    if (categories) {
+    try {
+        const categories = await GetAllCategories();
+
         return (
             <div className="flex flex-col">
                 <MainCarousel/>
@@ -57,9 +58,7 @@ export default async function Home() {
 
             </div>
         );
-
-    }else {
-        throw new Error('No data found');
+    }catch (error){
+        console.error('Error fetching categories:', error);
     }
-
 }
