@@ -36,7 +36,7 @@ export default function ProductGrid({ product }: { product: Product }) {
                             alt={product.name}
                             layout="fill"
                             objectFit="cover"
-                            onLoadingComplete={handleImageLoad}
+                            onLoad={handleImageLoad}
                         />
                         <div
                             className="absolute inset-0 bottom-10 flex flex-col items-center justify-end px-4 text-center">
