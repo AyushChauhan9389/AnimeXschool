@@ -5,7 +5,7 @@ import {GetAllCategories} from "@/lib/woo";
 
 export default async function Home() {
     const categories = await GetAllCategories();
-    if (categories.length === 0) {
+    if (!categories) {
         return (
             <div>SOME ERROR OCCURRED</div>
         )
