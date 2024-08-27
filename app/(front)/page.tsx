@@ -1,12 +1,15 @@
 import { HorizontalCarousel, MainCarousel, ProductCarousel } from "@/components/components/carousel";
-import {GetAllCategories, GetAllProducts} from "@/lib/woo";
 import Image from "next/image";
-import Footer from "@/components/components/footer";
 import {Button} from "@/components/ui/button";
+import {GetAllCategories} from "@/lib/woo";
 
 export default async function Home() {
     const categories = await GetAllCategories();
-
+    if (categories.length === 0) {
+        return (
+            <div>SOME ERROR OCCURRED</div>
+        )
+    }
   return (
       <div className="flex flex-col">
           <MainCarousel/>
@@ -58,4 +61,4 @@ export default async function Home() {
 
           </div>
           );
-          }
+}
