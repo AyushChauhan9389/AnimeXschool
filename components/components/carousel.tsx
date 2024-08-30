@@ -6,41 +6,9 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel"
-import { Car } from "lucide-react"
 import Image from "next/image"
-import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "../ui/card"
-import {CarouselClient, ProductCarouselClient} from "../client/carousel-client"
-const data = [
-    {
-        title: "Regular Fit Hoodies",
-        realprice: 100,
-        discountprice: 80,
-
-    },
-    {
-        title: "Regular Fit T-Shirts",
-        realprice: 100,
-        discountprice: 80,
-
-    },
-    {
-        title: "Jackets",
-        realprice: 100,
-        discountprice: 80,
-
-    },
-    {
-        title: "Bots",
-        realprice: 100,
-        discountprice: 80,
-
-    },
-    {
-        title: "test",
-        realprice: 100,
-        discountprice: 80,
-        }
-]
+import {CarouselClient, ProductCarouselClient, ProductSkeleton} from "../client/carousel-client"
+import {CategoryData, Product} from "@/lib/types";
 export function MainCarousel() {
     return (
         <Carousel opts={{
@@ -80,15 +48,36 @@ export function HorizontalCarousel({data} : {data: CategoryData[]}) {
         </Carousel>
     )
 }
-export function ProductCarousel() {
+export function ProductCarousel({data}:{data: Product[]}) {
     return (
         <Carousel opts={{
             align: "start",
             loop: true,
         }} className="my-4 w-[1200px] relative">
             <CarouselContent className="-ml-1">
-                {data.map((item, index) => (
-                    <ProductCarouselClient key={index} item={item} indexdata={index}/>
+                {data.map((Product, index) => (
+                    <ProductCarouselClient product={Product} key={index}/>
+                ))}
+
+
+            </CarouselContent>
+            <div className="flex justify-center mt-4 space-x-4">
+                <CarouselPrevious className="!static translate-y-0"></CarouselPrevious>
+                <CarouselNext className="!static translate-y-0"></CarouselNext>
+            </div>
+        </Carousel>
+    )
+}
+
+export function ProductCarouselSkeleton(){
+    return(
+        <Carousel opts={{
+            align: "start",
+            loop: true,
+        }} className="my-4 w-[1200px] relative">
+            <CarouselContent className="-ml-1">
+                {[1,2,3,4,5].map((index) => (
+                    <ProductSkeleton key={index} />
                 ))}
 
 

@@ -1,7 +1,15 @@
-import { HorizontalCarousel, MainCarousel, ProductCarousel } from "@/components/components/carousel";
+import {
+    HorizontalCarousel,
+    MainCarousel,
+    ProductCarousel,
+    ProductCarouselSkeleton
+} from "@/components/components/carousel";
 import Image from "next/image";
 import {Button} from "@/components/ui/button";
 import {GetAllCategories} from "@/lib/woo";
+import FetchPage from "@/components/components/fetch";
+import {Suspense} from "react";
+import {ProductSkeleton} from "@/components/client/carousel-client";
 
 export default async function Home() {
     try {
@@ -26,13 +34,17 @@ export default async function Home() {
                     NEW ARRIVALS
                 </div>
                 <div className="flex justify-center">
-                    <ProductCarousel/>
+                    <Suspense fallback={<ProductCarouselSkeleton />}>
+                        <FetchPage />
+                    </Suspense>
                 </div>
                 <div className="w-full flex justify-center text-4xl font-bold font-sans mt-4">
                     TOP SELLING
                 </div>
                 <div className="flex justify-center">
-                    <ProductCarousel/>
+                    <Suspense fallback={<ProductCarouselSkeleton />}>
+                        <FetchPage />
+                    </Suspense>
                 </div>
                 <div className="flex flex-row justify-center items-center">
                     <div className="flex flex-row justify-center w-[1200px] h-[360px] gap-8">

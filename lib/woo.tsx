@@ -1,6 +1,6 @@
 'use server'
-// @ts-ignore
-import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
+
+import {CategoryData, Product} from "@/lib/types";
 
 async function woo(endpoint: string, queryParams: string = '') {
     const url = `${process.env.BASE_URL}${endpoint}${queryParams}`;
@@ -14,7 +14,6 @@ async function woo(endpoint: string, queryParams: string = '') {
 export async function GetAllProducts(): Promise<Product[]> {
     const data = await woo('/wp-json/wc/v3/products', '?per_page=5');
     const response = await data.json();
-
     const finalData = await Promise.all(
         response.map(async (product: Product) => {
             // Fetch variations if the product is variable
@@ -36,6 +35,8 @@ export async function GetAllProducts(): Promise<Product[]> {
             return {
                 id: product.id,
                 name: product.name,
+                description: product.description,
+                short_description: product.short_description,
                 slug: product.slug,
                 permalink: product.permalink,
                 regular_price: product.regular_price,
@@ -104,6 +105,54 @@ export async function GetProductsFromCategory(slug: string){
             return {
                 id: product.id,
                 name: product.name,
+                description: product.description,
+                short_description: product.short_description,
+                slug: product.slug,
+                permalink: product.permalink,
+                regular_price: product.regular_price,
+                sale_price: product.sale_price,
+                images: product.images.map((image: any) => ({
+                    id: image.id,
+                    src: image.src
+                })),
+                attributes: product.attributes.map((attribute: any) => ({
+                    name: attribute.name,
+                    options: attribute.options,
+                })),
+                variations, // Includes the variations with prices and attributes
+            };
+        })
+    );
+    return finalData;
+
+}
+
+export async function GetProductBySlug(slug: string): Promise<Product[]>{
+    const data = await woo(`/wp-json/wc/v3/products`, `?slug=${slug}`);
+    const response = await data.json();
+    const finalData = await Promise.all(
+        response.map(async (product: Product) => {
+            // Fetch variations if the product is variable
+            let variations = [];
+            if (product.type === "variable") {
+                const variationData = await woo(`/wp-json/wc/v3/products/${product.id}/variations`);
+                const variationResponse = await variationData.json();
+                variations = variationResponse.map((variation: any) => ({
+                    id: variation.id,
+                    regular_price: variation.regular_price,
+                    sale_price: variation.sale_price,
+                    attributes: variation.attributes.map((attribute: any) => ({
+                        name: attribute.name,
+                        option: attribute.option,
+                    })),
+                }));
+            }
+
+            return {
+                id: product.id,
+                name: product.name,
+                description: product.description,
+                short_description: product.short_description,
                 slug: product.slug,
                 permalink: product.permalink,
                 regular_price: product.regular_price,

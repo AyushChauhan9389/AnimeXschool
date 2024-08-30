@@ -1,4 +1,4 @@
-interface CategoryData {
+export interface CategoryData {
     id: number;
     name: string;
     slug: string;
@@ -6,29 +6,39 @@ interface CategoryData {
     count: number;
 }
 
-type Product = {
+export interface ImageOnly {
+    id: number | string;
+    src: string;
+}
+
+export interface Attribute {
+    name: string;
+    options: string[];
+}
+
+export interface VariationAttribute {
+    name: string;
+    option: string;
+}
+
+export interface Variation {
+    id: number | string;
+    regular_price: string | number;
+    sale_price: string | number;
+    attributes: VariationAttribute[];
+}
+
+export interface Product {
     type: string;
     id: number | string;
+    description: string;
+    short_description: string;
     name: string;
     slug: string;
     permalink: string;
     regular_price: string | number;
     sale_price: string | number;
-    images: {
-        id: number | string;
-        src: string;
-    }[];
-    attributes: {
-        name: string;
-        options: string[];
-    }[];
-    variations?: {
-        id: number | string;
-        regular_price: string | number;
-        sale_price: string | number;
-        attributes: {
-            name: string;
-            option: string;
-        }[];
-    }[];
-};
+    images: ImageOnly[];
+    attributes: Attribute[];
+    variations?: Variation[];
+}
