@@ -6,7 +6,8 @@ type CategorySlugProps = {
 }
 
 
-export default async function CategorySlug({params}: { params: CategorySlugProps }) {
+export default async function CategorySlug(props: { params: Promise<CategorySlugProps> }) {
+    const params = await props.params;
     const data = await GetProductsFromCategory(params.slug);
     return (
         <div >

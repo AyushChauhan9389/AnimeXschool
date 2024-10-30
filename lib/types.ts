@@ -38,7 +38,24 @@ export interface Product {
     permalink: string;
     regular_price: string | number;
     sale_price: string | number;
-    images: ImageOnly[];
+    images: ImageOnly[] ;
     attributes: Attribute[];
     variations?: Variation[];
+}
+
+export interface VariationProduct {
+    id: number;
+    name: string;
+    slug: string;
+    type: string;
+    status: string;
+    description: string;
+    short_description: string;
+    price: string;
+    regular_price: string;
+    categories: CategoryData[];
+    images: ImageOnly[];
+    attributes: Attribute[];
+    variations: any[];
+    related_ids: number[];
 }

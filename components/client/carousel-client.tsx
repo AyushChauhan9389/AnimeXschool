@@ -90,9 +90,8 @@ export function ProductSkeleton(){
                     </div>
                         <div className="text-xs flex justify-center gap-3">
                             <p className="line-through">
-                                <Skeleton className="w-4 h-2" />
                             </p>
-                            <p className="text-red-600"><Skeleton className="w-4 h-2" /></p>
+                            <p className="text-red-600"></p>
                         </div>
                 </Card>
             </motion.div>
@@ -119,42 +118,52 @@ export function ProductCarouselClient({product}:{product: Product}) {
                         <Skeleton className="absolute inset-0 w-full h-full z-10" />
                     )}
                     <Image
-                        src={product.images[0].src}
+                        src={product.images[0]?.src || "/placeholder.svg"}
                         alt={product.name}
                         fill
                         style={{ objectFit: 'cover' }}
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         onLoad={handleImageLoad}
                     />
-                    <div
-                        className="absolute inset-0 bottom-10 flex flex-col items-center justify-end px-4 text-center">
-                        <AnimatePresence>
-                            {isHovered && (
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: 20 }}
-                                transition={{ duration: 0.5, ease: "easeInOut" }}
-                                className="flex flex-row w-full h-10 gap-4 justify-evenly items-center text-xs bg-white">
-                                {product.variations?.slice().reverse().map((item, index) => (
-                                    <div key={index}>
-                                            <p className="uppercase">{item.attributes[0].option}</p>
-                                    </div>
-                                ))}
-                            </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
+                    {product.variations && product.variations.length > 0 ? (
+                        <div
+                            className="absolute inset-0 bottom-10 flex flex-col items-center justify-end px-4 text-center">
+                            <AnimatePresence>
+                                {isHovered && (
+                                    <motion.div
+                                        initial={{opacity: 0, y: 20}}
+                                        animate={{opacity: 1, y: 0}}
+                                        exit={{opacity: 0, y: 20}}
+                                        transition={{duration: 0.5, ease: "easeInOut"}}
+                                        className="flex flex-row w-full h-10 gap-4 justify-evenly items-center text-xs bg-white">
+                                        {product.variations?.slice().reverse().map((item, index) => (
+                                            <div key={index}>
+                                                <p className="uppercase">{item.attributes[0].option}</p>
+                                            </div>
+                                        ))}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    ): null}
                 </CardContent>
                 <div className="mt-4 flex flex-row justify-center text-[1rem]">
                     {product.name}
                 </div>
-                {product.variations ? (
-                    <div className="text-xs flex justify-center gap-3">
-                        <p className="line-through">Rs. {product.variations[0].regular_price}</p>
-                        <p className="text-red-600">Rs. {product.variations[0].sale_price}</p>
-                    </div>
-                ) : null}
+                {product.variations && product.variations.length > 0 ? (
+                        <div className="text-xs flex justify-center gap-3">
+                            <p className={product.variations[0].sale_price ? "line-through" : undefined}>Rs. {product.variations[0].regular_price}</p>
+                            {product.variations[0].sale_price ? (
+                                <p className="text-red-600">Rs. {product.variations[0].sale_price}</p>):null}
+                        </div>
+                    ) :
+                    (
+                        <div className="text-xs flex justify-center gap-3">
+                            <p className="line-through">Rs. {product.regular_price}</p>
+                            {product.sale_price ? (
+                                <p className="text-red-600">Rs. {product.sale_price}</p>):null}
+                        </div>
+                    )}
             </Card>
             </motion.div>
         </CarouselItem>
