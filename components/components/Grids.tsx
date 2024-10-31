@@ -23,7 +23,7 @@ export default function ProductGrid({ product }: { product: Product }) {
     };
 
     return (
-        <Link href={`/category/product/${product.slug}`}>
+        <Link href={`/product/${product.slug}`}>
             <div className="md:basis-1/2 lg:basis-1/3 mt-4">
                 <motion.div className="p-1"
                             onHoverStart={() => setIsHovered(true)}

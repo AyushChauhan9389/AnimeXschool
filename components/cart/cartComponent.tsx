@@ -30,10 +30,16 @@ const SimpleSizeSelector = ({ProductData}: Props) => {
             const sizeId = variation.id;
             const sizeProductData = await fetch(`/api/cartproductinfo?id=${sizeId}`);
             const sizeProduct: Product = await sizeProductData.json();
-            cart.addToCart(sizeProduct);
+            cart.addToCart({
+                product: sizeProduct,
+                quantity: 1,
+            });
             toast.success('Item added to cart');
         } else {
-            cart.addToCart(ProductData);
+            cart.addToCart({
+                product: ProductData,
+                quantity: 1,
+            });
             toast.success('Item added to cart');
         }
     }

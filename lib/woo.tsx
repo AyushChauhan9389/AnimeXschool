@@ -208,7 +208,7 @@ export async function GetProductById(id: number, type: string): Promise<Product>
         })),
         attributes: product.attributes.map((attribute: any) => ({
             name: attribute.name,
-            options: attribute.options,
+            options: attribute.option,
         })),
         variations, // Includes the variations with prices and attributes
     };

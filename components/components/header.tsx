@@ -3,6 +3,8 @@ import { NavigationMenuDemo } from "../client/navigation";
 import {Instagram} from "lucide-react";
 import Link from "next/link";
 import CartBullet from "@/components/cart/CartBullet";
+import {SignedIn, SignedOut, UserButton} from "@clerk/nextjs";
+import {Button} from "@/components/ui/button";
 
 export default function Header() {
   return (
@@ -15,7 +17,21 @@ export default function Header() {
       <div className="py-2 flex justify-center mt-4">
       <NavigationMenuDemo />
       </div>
-    <CartBullet/>
+        <CartBullet/>
+        <SignedIn>
+            <div className="absolute top-5 left-5">
+                <UserButton/>
+            </div>
+        </SignedIn>
+        <SignedOut>
+            <div className="absolute top-5 left-5">
+                <Link href="/sign-in">
+                   <Button>
+                        Sign In
+                    </Button>
+                </Link>
+            </div>
+        </SignedOut>
     </header>
   );
 }
