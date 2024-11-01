@@ -19,8 +19,13 @@ export default function Header() {
       </div>
         <CartBullet/>
         <SignedIn>
-            <div className="absolute top-5 left-5">
+            <div className="absolute top-5 left-5 flex justify-center items-center gap-4">
                 <UserButton/>
+                <Link href="/account">
+                    <Button>
+                        Account
+                    </Button>
+                </Link>
             </div>
         </SignedIn>
         <SignedOut>
