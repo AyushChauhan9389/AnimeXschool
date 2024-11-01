@@ -173,8 +173,8 @@ export async function GetProductBySlug(slug: string): Promise<Product[]>{
 
 }
 
-export async function GetProductById(id: number, type: string): Promise<Product> {
-    const data = await woo(`/wp-json/wc/v3/products/${id}`);
+export async function GetProductById(id: number | string, type: string): Promise<Product> {
+    const data = await woo(`/wp-json/wc/v3/products/${Number(id)}`);
     const product = await data.json();
 
     let variations = [];

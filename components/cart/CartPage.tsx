@@ -5,6 +5,7 @@ import { Minus, Plus } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import Image from "next/image"
 import useCart from "@/hooks/use-cart"
+import Link from "next/link";
 
 export default function CartPage() {
     const cart = useCart()
@@ -114,9 +115,11 @@ export default function CartPage() {
                         {cart.items.length > 0 && (
                             <>
                                 <div className="mt-6">
-                                    <Button className="w-full bg-primary text-primary-foreground">
-                                        CHECKOUT
-                                    </Button>
+                                    <Link href={`/checkout`}>
+                                        <Button className="w-full bg-primary text-primary-foreground">
+                                            CHECKOUT
+                                        </Button>
+                                    </Link>
                                 </div>
                                 <div className="bg-amber-100 text-amber-900 p-3 rounded-md mt-4 text-center text-sm">
                                     Congrats! You are qualified for free shipping!
