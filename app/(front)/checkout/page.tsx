@@ -195,7 +195,7 @@ export default function CheckoutPage() {
                             </Button>
                             <div className="flex items-center justify-center gap-2 mt-4 text-sm text-muted-foreground">
                                 <Truck className="h-4 w-4" />
-                                <span>Congrats! You're qualified for free shipping!</span>
+                                <span>Congrats! You are qualified for free shipping!</span>
                             </div>
                         </CardContent>
                     </Card>
