@@ -8,6 +8,7 @@ import { Button } from '../ui/button';
 import Link from "next/link";
 import {Skeleton} from "@/components/ui/skeleton";
 import {CategoryData, Product} from "@/lib/types";
+import {MotionDiv, MotionH1, MotionP} from "@/components/common/motion";
 
 
 
@@ -16,7 +17,7 @@ export function CarouselClient({ data }: {data: CategoryData}) {
 
     return (
         <CarouselItem className="md:basis-1/2 lg:basis-1/3 mt-4">
-            <motion.div
+            <MotionDiv
                 className="p-1"
                 onHoverStart={() => setIsHovered(true)}
                 onHoverEnd={() => setIsHovered(false)}
@@ -31,18 +32,18 @@ export function CarouselClient({ data }: {data: CategoryData}) {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.5)] to-[rgba(0,0,0,0)] rounded-none"></div>
                         <div className="absolute inset-0 bottom-10 flex flex-col items-center justify-end px-4 text-center">
-                            <motion.div
+                            <MotionDiv
                                 className="space-y-4"
                                 initial={{ y: 0 }}
                                 animate={{ y: isHovered ? -20 : 0 }}
                                 transition={{ duration: 0.3, ease: "easeInOut" }}
                             >
-                                <motion.h1 className="text-2xl text-white">
+                                <MotionH1 className="text-2xl text-white">
                                     {data.name}
-                                </motion.h1>
+                                </MotionH1>
                                 <AnimatePresence>
                                     {isHovered && (
-                                        <motion.p
+                                        <MotionP
                                             className="text-lg text-white"
                                             initial={{ opacity: 0, height: 0 }}
                                             animate={{ opacity: 1, height: "auto" }}
@@ -52,14 +53,14 @@ export function CarouselClient({ data }: {data: CategoryData}) {
                                             <Link href={`/category/${data.slug}`}>
                                                 <Button variant="link" className="text-white underline" >Explore More</Button>
                                             </Link>
-                                        </motion.p>
+                                        </MotionP>
                                     )}
                                 </AnimatePresence>
-                            </motion.div>
+                            </MotionDiv>
                         </div>
                     </CardContent>
                 </Card>
-            </motion.div>
+            </MotionDiv>
         </CarouselItem>
     )
 }
@@ -73,7 +74,7 @@ type data = {
 export function ProductSkeleton(){
     return(
         <CarouselItem className="md:basis-1/3 lg:basis-1/4 mt-4 ">
-            <motion.div className="p-1"
+            <MotionDiv className="p-1"
             >
                 <Card className="overflow-hidden rounded-none border-none group shadow-none">
                     <CardContent className="relative p-0 h-[400px] rounded-none">
@@ -94,7 +95,7 @@ export function ProductSkeleton(){
                             <p className="text-red-600"></p>
                         </div>
                 </Card>
-            </motion.div>
+            </MotionDiv>
         </CarouselItem>
     )
 }
@@ -108,7 +109,7 @@ export function ProductCarouselClient({product}:{product: Product}) {
 
     return(
         <CarouselItem className="md:basis-1/3 lg:basis-1/4 mt-4 ">
-            <motion.div className="p-1"
+            <MotionDiv className="p-1"
                  onHoverStart={() => setIsHovered(true)}
                  onHoverEnd={() => setIsHovered(false)}
             >
@@ -130,7 +131,7 @@ export function ProductCarouselClient({product}:{product: Product}) {
                             className="absolute inset-0 bottom-10 flex flex-col items-center justify-end px-4 text-center">
                             <AnimatePresence>
                                 {isHovered && (
-                                    <motion.div
+                                    <MotionDiv
                                         initial={{opacity: 0, y: 20}}
                                         animate={{opacity: 1, y: 0}}
                                         exit={{opacity: 0, y: 20}}
@@ -141,7 +142,7 @@ export function ProductCarouselClient({product}:{product: Product}) {
                                                 <p className="uppercase">{item.attributes[0].option}</p>
                                             </div>
                                         ))}
-                                    </motion.div>
+                                    </MotionDiv>
                                 )}
                             </AnimatePresence>
                         </div>
@@ -165,7 +166,7 @@ export function ProductCarouselClient({product}:{product: Product}) {
                         </div>
                     )}
             </Card>
-            </motion.div>
+            </MotionDiv>
         </CarouselItem>
     )
 }
