@@ -6,7 +6,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import {Product} from "@/lib/types";
-import Link from "next/link"; // Import Skeleton component
+import Link from "next/link";
+import {MotionDiv} from "@/components/common/motion"; // Import Skeleton component
 
 const item = {
     title: "Product",
@@ -25,7 +26,7 @@ export default function ProductGrid({ product }: { product: Product }) {
     return (
         <Link href={`/product/${product.slug}`}>
             <div className="md:basis-1/2 lg:basis-1/3 mt-4">
-                <motion.div className="p-1"
+                <MotionDiv className="p-1"
                             onHoverStart={() => setIsHovered(true)}
                             onHoverEnd={() => setIsHovered(false)}
                 >
@@ -48,7 +49,7 @@ export default function ProductGrid({ product }: { product: Product }) {
                                     className="absolute inset-0 bottom-10 flex flex-col items-center justify-end px-4 text-center">
                                     <AnimatePresence>
                                         {isHovered && (
-                                            <motion.div
+                                            <MotionDiv
                                                 initial={{opacity: 0, y: 20}}
                                                 animate={{opacity: 1, y: 0}}
                                                 exit={{opacity: 0, y: 20}}
@@ -59,7 +60,7 @@ export default function ProductGrid({ product }: { product: Product }) {
                                                         <p className="uppercase">{item.attributes[0].option}</p>
                                                     </div>
                                                 ))}
-                                            </motion.div>
+                                            </MotionDiv>
                                         )}
                                     </AnimatePresence>
                                 </div>
@@ -83,7 +84,7 @@ export default function ProductGrid({ product }: { product: Product }) {
                                 </div>
                             )}
                     </Card>
-                </motion.div>
+                </MotionDiv>
             </div>
         </Link>
     );
