@@ -40,5 +40,10 @@ export const address = pgTable('address', {
 export const order = pgTable('order', {
     orderId: serial('orderId').primaryKey(),
     userId: integer('userId').references(() => users.id).notNull(),
+    addressId: integer('addressId').references(() => address.addressId).notNull(),
     productData: json('productData').array().notNull(),
+    status: text('status').notNull().default('pending'),
+    total: integer().notNull().default(0),
+    createdAt: timestamp('createdAt').notNull().default(sql`now()`),
+    updatedAt: timestamp('updatedAt').notNull().default(sql`now()`)
 });

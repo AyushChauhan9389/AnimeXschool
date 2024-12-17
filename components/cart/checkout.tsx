@@ -12,6 +12,7 @@ import Image from 'next/image'
 import useCart from "@/hooks/use-cart"
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
+import {SignedIn, SignedOut} from "@clerk/nextjs";
 
 type Props = {
     addresses: {
@@ -34,6 +35,9 @@ export default function CheckoutPage({ addresses, userId }: Props) {
     const cart = useCart()
     const router = useRouter()
 
+    if(cart.items.length === 0){
+        router.push("/cart")
+    }
     const updateQuantity = (id: number, increment: boolean) => {
         if (increment) {
             cart.increaseQuantity(id)
@@ -67,7 +71,7 @@ export default function CheckoutPage({ addresses, userId }: Props) {
             items: cart.items
         }
         setExecuting(true)
-        const data = await fetch("/api/checkout", {
+        const response = await fetch("/api/checkout", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -75,14 +79,22 @@ export default function CheckoutPage({ addresses, userId }: Props) {
             body: JSON.stringify(payload)
         })
 
-        if (!data.ok) {
-            const error = await data.json()
+
+        if (!response.ok) {
+            setExecuting(false)
+            const error = await response.json()
             toast.error(error.error)
+
             return
         }else {
-            toast.success("Order placed successfully!")
-            cart.removeAllFromCart()
-            router.push("/cart")
+            const data = await response.json();
+            if (data.url) {
+                window.location.href = data.url; // Redirect to the Stripe checkout page
+            } else {
+                toast.error("Failed to get the checkout URL.");
+            }
+            cart.removeAllFromCart();
+            toast.success("Order placed successfully!");
         }
         setExecuting(false)
 
@@ -107,62 +119,69 @@ export default function CheckoutPage({ addresses, userId }: Props) {
             <h1 className="text-3xl font-bold mb-8">Checkout</h1>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2">
-                    <Accordion type={"multiple"} defaultValue={["address"]} className="w-full" >
-                        <AccordionItem value="address">
-                            <AccordionTrigger>
-                                <div className="flex items-center gap-2">
-                                    <Home className="h-5 w-5" />
-                                    <span>Select Address</span>
-                                </div>
-                            </AccordionTrigger>
-                            <AccordionContent>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {addresses.map((address) => (
-                                        <Card
-                                            key={address.id}
-                                            className={`cursor-pointer transition-all ${selectedAddress.id === address.id ? 'border-2 border-primary' : 'hover:shadow-md'}`}
-                                            onClick={() => setSelectedAddress(addresses.find(a => a.id === address.id)!)}
-                                        >
-                                            <CardContent className="p-4 flex justify-between items-start">
-                                                <div>
-                                                    <h3 className="font-semibold">{address.name}</h3>
-                                                    <p className="text-sm text-muted-foreground">{address.address}</p>
-                                                </div>
-                                                {selectedAddress.id === address.id && (
-                                                    <Check className="text-primary h-5 w-5" />
-                                                )}
-                                            </CardContent>
-                                        </Card>
-                                    ))}
-                                </div>
-                                <Button className="mt-4">Add New Address</Button>
-                            </AccordionContent>
-                        </AccordionItem>
-                        <AccordionItem value="payment">
-                            <AccordionTrigger>
-                                <div className="flex items-center gap-2">
-                                    <CreditCard className="h-5 w-5" />
-                                    <span>Select Payment Method</span>
-                                </div>
-                            </AccordionTrigger>
-                            <AccordionContent>
-                                <Card
-                                    className={`cursor-pointer transition-all ${selectedPayment === 'stripe' ? 'border-2 border-[#6772e5]' : 'hover:shadow-md'}`}
-                                    onClick={() => setSelectedPayment('stripe')}
-                                >
-                                    <CardContent className="p-4 flex justify-between items-center">
-                                        <div className="flex items-center gap-2">
-                                            <Image src="/stripe.svg" alt="Stripe logo" width={24} height={24} />
-                                            <span className="font-semibold">Pay with Stripe</span>
-                                        </div>
-                                        {selectedPayment === 'stripe' && (
-                                            <Check className="text-[#6772e5] h-5 w-5" />
-                                        )}
-                                    </CardContent>
-                                </Card>
-                            </AccordionContent>
-                        </AccordionItem>
-                    </Accordion>
+                    <SignedOut>
+                        <Button>
+                            Sign in to checkout
+                        </Button>
+                    </SignedOut>
+                    <SignedIn>
+                        <Accordion type={"multiple"} defaultValue={["address"]} className="w-full" >
+                            <AccordionItem value="address">
+                                <AccordionTrigger>
+                                    <div className="flex items-center gap-2">
+                                        <Home className="h-5 w-5" />
+                                        <span>Select Address</span>
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        {addresses.map((address) => (
+                                            <Card
+                                                key={address.id}
+                                                className={`cursor-pointer transition-all ${selectedAddress.id === address.id ? 'border-2 border-primary' : 'hover:shadow-md'}`}
+                                                onClick={() => setSelectedAddress(addresses.find(a => a.id === address.id)!)}
+                                            >
+                                                <CardContent className="p-4 flex justify-between items-start">
+                                                    <div>
+                                                        <h3 className="font-semibold">{address.name}</h3>
+                                                        <p className="text-sm text-muted-foreground">{address.address}</p>
+                                                    </div>
+                                                    {selectedAddress.id === address.id && (
+                                                        <Check className="text-primary h-5 w-5" />
+                                                    )}
+                                                </CardContent>
+                                            </Card>
+                                        ))}
+                                    </div>
+                                    <Button className="mt-4">Add New Address</Button>
+                                </AccordionContent>
+                            </AccordionItem>
+                            <AccordionItem value="payment">
+                                <AccordionTrigger>
+                                    <div className="flex items-center gap-2">
+                                        <CreditCard className="h-5 w-5" />
+                                        <span>Select Payment Method</span>
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent>
+                                    <Card
+                                        className={`cursor-pointer transition-all ${selectedPayment === 'stripe' ? 'border-2 border-[#6772e5]' : 'hover:shadow-md'}`}
+                                        onClick={() => setSelectedPayment('stripe')}
+                                    >
+                                        <CardContent className="p-4 flex justify-between items-center">
+                                            <div className="flex items-center gap-2">
+                                                <Image src="/stripe.svg" alt="Stripe logo" width={24} height={24} />
+                                                <span className="font-semibold">Pay with Stripe</span>
+                                            </div>
+                                            {selectedPayment === 'stripe' && (
+                                                <Check className="text-[#6772e5] h-5 w-5" />
+                                            )}
+                                        </CardContent>
+                                    </Card>
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    </SignedIn>
                 </div>
                 <div className="lg:col-span-1">
                     <Card>
