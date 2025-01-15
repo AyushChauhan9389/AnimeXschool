@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['logo.tg-api.me'],
+        domains: ['lelekart.com','www.lelekart.com'],
     },
 
 };
