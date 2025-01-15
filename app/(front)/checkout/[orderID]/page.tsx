@@ -5,21 +5,22 @@ import getuserid from "@/lib/server-utils";
 import Link from "next/link";
 
 interface OrderPageProps {
-  params: {
+  params: Promise<{
     orderID: string;
-  };
+  }>;
 }
 
-export default async function OrderPage({ params }: OrderPageProps) {
+export default async function OrderPage(props: OrderPageProps) {
+  const params = await props.params;
   const userId = await getuserid();
   const orderID = params.orderID;
-  
+
   // Fetch order details
   const orderDetails = await db
     .select()
     .from(order)
     .where(eq(order.orderId, Number(orderID)));
-  
+
   // If no matching order or order does not belong to the current user
   if (orderDetails.length === 0 || orderDetails[0].userId !== userId) {
     return (
