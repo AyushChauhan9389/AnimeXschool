@@ -14,7 +14,13 @@ A modern e-commerce platform built with Next.js, featuring a seamless shopping e
 - 📱 Fully responsive design
 - 🔄 Real-time updates with server components
 - 🛢️ PostgreSQL database with Drizzle ORM
-- 🛒 WooCommerce integration
+- 🛒 WooCommerce integration with:
+  - Product variations support
+  - Dynamic pricing (regular/sale)
+  - Category management
+  - Rich product descriptions
+  - Multiple product images
+  - Custom attributes handling
 
 ## 🚀 Tech Stack
 
@@ -96,9 +102,38 @@ npm run turbo
 
 ## 🛠️ Database Management
 
+### Schema Structure
+
+- **Users Table:**
+  - User identification and authentication
+  - Email and username tracking
+  - Role-based access control
+  
+- **Roles Table:**
+  - Role management system
+  - User permission controls
+
+- **Address Table:**
+  - Multiple address support per user
+  - Comprehensive location details
+  - Shipping information management
+
+- **Orders Table:**
+  - Order tracking and management
+  - JSON product data storage
+  - Status tracking (default: pending)
+  - Timestamp-based tracking
+  - Total order value
+
+### Database Operations
 - **Schema Updates:** Edit `lib/db/schema.ts`
 - **Push Changes:** `npm run push`
 - **Studio Interface:** `npm run studio`
+- **Relationships:**
+  - Users → Roles (Many-to-One)
+  - Users → Addresses (One-to-Many)
+  - Orders → Users (Many-to-One)
+  - Orders → Addresses (Many-to-One)
 
 ## 💳 Payment Integration
 
@@ -112,6 +147,27 @@ The project uses Stripe for payment processing:
 - **Linting:** `npm run lint`
 - **Type Checking:** Built-in TypeScript support
 - **Database Studio:** `npm run studio`
+
+## 🏪 Product System
+
+The e-commerce system supports:
+- **Product Types:** Both simple and variable products
+- **Product Data:**
+  - Regular and sale pricing
+  - Short and full descriptions
+  - Multiple product images
+  - Custom attributes and variations
+  - Category organization
+  - Product slugs for SEO-friendly URLs
+- **Variation System:**
+  - Individual pricing per variation
+  - Custom attribute combinations
+  - Separate inventory management
+- **Category Features:**
+  - Hierarchical organization
+  - Product counting
+  - Category descriptions
+  - SEO-friendly slugs
 
 ## 🌐 Deployment
 
